@@ -69,12 +69,11 @@
     body_format: json
     validate_certs: False
 
-
 - name: Create cluster
   uri:
     url: '{{ rancher_url }}/v3/cluster'
     method: POST
-    body: {"type":"cluster","nodes":[],"rancherKubernetesEngineConfig":{"ignoreDockerVersion":true},"name":"{{ rancher_cluster_name }}"}
+    body: {"type":"cluster","nodes":[],"rancherKubernetesEngineConfig":{"ignoreDockerVersion":true, "network":{"type":"networkConfig","plugin":"{{ rancher_network_provider }}"}},"name":"{{ rancher_cluster_name }}"}
     status_code: 201
     body_format: json
     headers:
