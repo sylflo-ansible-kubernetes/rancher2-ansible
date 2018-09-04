@@ -1,38 +1,50 @@
 Role Name
 =========
 
-A brief description of the role goes here.
-
+This role installs Rancher 2 (see rancher.com) on a custom server using Docker.
+It also installs:
+  - one cluster (see the Role variables section)
+  - Cert manager with a cluster issuer (see cert-manager.io)
+  - in the future it will also install Rook (see rook.io)
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+No Requirements
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+- docker_version: "18.03" => The docker version you want to install
+- rancher_container_name: "rancher-server" => The name you want for the rancher docker container
+- rancher_url: "https://yourserverurl" => The url of the rancher server
+- rancher_admin_password: "admin_password" => The password you want
+- rancher_cluster_name: "cluster_name" => The name you want for the cluster being created
+- rancher_network_provider: "calico" => The network provider
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+No Dependencies
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
     - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+      tasks:
+      - include_role:
+          name: '../../rancher2-ansible'
+        vars:
+          rancher_url: 'https://my_rancher.fr'
+          rancher_admin_password: 'rancher_password'
+          rancher_cluster_name: 'my_cluster'
 
 License
 -------
 
-BSD
+MIT
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+If you have any issue with the project please open one on Github.
+Any pull request or improvement idea is welcome.
