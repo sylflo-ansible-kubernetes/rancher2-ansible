@@ -46,11 +46,11 @@
   retries: 10
   delay: 10
 
-- name: Create api key
+- name: Create api key (expires in 1 day)
   uri:
     url: '{{ rancher_url }}/v3/token'
     method: POST
-    body: {"type":"token","description":"automation"}
+    body: {"current":false, "expired":false, "isDerived":false, "ttl":86400000, "type":"token", "description":"automation"}
     status_code: 201
     body_format: json
     headers:
