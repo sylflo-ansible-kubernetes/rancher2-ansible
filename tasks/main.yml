@@ -3,3 +3,8 @@
 
 - include: server.yml
   tags: server
+
+- include: rook.yml
+  tags: rook
+  delegate_to: 127.0.0.1
+  connection: local
