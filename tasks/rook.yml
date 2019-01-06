@@ -59,7 +59,11 @@
   until: nb_running_pods.stdout == "6"
 
 - name: "Create Rook storage class"
-  bash: kubectl create -f /tmp/rook/rook-0.9.0/cluster/examples/kubernetes/ceph/storageclass.yaml
+  shell: kubectl create -f /tmp/rook/rook-0.9.0/cluster/examples/kubernetes/ceph/storageclass.yaml
+
+- name: "Set the Rook storage class as default"
+  shell: |
+    kubectl patch storageclass rook-ceph-block -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
 
 - name: "Install Rook dashboard"
   shell: kubectl create -f /tmp/rook/rook-{{rook_version}}/cluster/examples/kubernetes/ceph/dashboard-external-http.yaml
