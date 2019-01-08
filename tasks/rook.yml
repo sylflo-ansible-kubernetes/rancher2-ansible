@@ -65,5 +65,11 @@
   shell: |
     kubectl patch storageclass rook-ceph-block -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
 
+- name: "Create a shared file system":
+  shell: kubectl create -f /tmp/rook/rook-0.9.0/cluster/examples/kubernetes/ceph/filesystem.yaml
+
+- name: "Create toolbox"
+  shell: kubectl create -f /tmp/rook/rook-0.9.0/cluster/examples/kubernetes/ceph/toolbox.yaml
+
 - name: "Install Rook dashboard"
   shell: kubectl create -f /tmp/rook/rook-{{rook_version}}/cluster/examples/kubernetes/ceph/dashboard-external-http.yaml
