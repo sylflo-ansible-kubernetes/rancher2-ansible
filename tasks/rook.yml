@@ -46,6 +46,8 @@
   delay: 30
   until: nb_running_pods.stdout == "3"
 
+- pause:
+    minutes: 5
 
 - name: "Create Rook cluster"
   shell: kubectl create -f /tmp/rook/rook-{{rook_version}}/cluster/examples/kubernetes/ceph/cluster.yaml
@@ -56,7 +58,7 @@
   register: nb_running_pods
   retries: 5
   delay: 30
-  until: nb_running_pods.stdout == "5"
+  until: nb_running_pods.stdout == "6"
 
 - name: "Create Rook storage class"
   shell: kubectl create -f /tmp/rook/rook-0.9.0/cluster/examples/kubernetes/ceph/storageclass.yaml

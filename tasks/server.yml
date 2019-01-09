@@ -95,3 +95,6 @@
 
 - name: launch node command
   shell: '{{ node_command_result.json.nodeCommand[5:] }} --etcd --controlplane --worker'
+
+- pause:
+    prompt: "Wait for cluster to be active if you desire to install Rook"

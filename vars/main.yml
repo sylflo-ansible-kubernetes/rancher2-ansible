@@ -4,4 +4,5 @@ rancher_url: "https://yourserverurl"
 rancher_admin_password: "admin_password"
 rancher_cluster_name: "cluster_name"
 rancher_network_provider: "calico"
-rook_version: "0.9.0"
+install_rook: true
+rook_version: "0.9.1"
