@@ -27,7 +27,7 @@
   shell: yaourt -S kubectl
   when: ansible_distribution == 'Archlinux'
 
-- name: Set FLEXVOLUME_DIR_PATH for Rook to be able to worjk with Rancher
+- name: Set FLEXVOLUME_DIR_PATH for Rook to be able to work with Rancher
   lineinfile:
     dest: /tmp/rook/rook-{{rook_version}}/cluster/examples/kubernetes/ceph/operator.yaml
     regexp: "{{ item.regexp }}"
@@ -56,7 +56,7 @@
   register: nb_running_pods
   retries: 5
   delay: 30
-  until: nb_running_pods.stdout == "6"
+  until: nb_running_pods.stdout == "5"
 
 - name: "Create Rook storage class"
   shell: kubectl create -f /tmp/rook/rook-0.9.0/cluster/examples/kubernetes/ceph/storageclass.yaml
@@ -65,7 +65,7 @@
   shell: |
     kubectl patch storageclass rook-ceph-block -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
 
-- name: "Create a shared file system":
+- name: "Create a shared file system"
   shell: kubectl create -f /tmp/rook/rook-0.9.0/cluster/examples/kubernetes/ceph/filesystem.yaml
 
 - name: "Create toolbox"

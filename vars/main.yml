@@ -1,4 +1,4 @@
-docker_version: "18.03"
+docker_version: "18.09.0"
 rancher_container_name: "rancher-server"
 rancher_url: "https://yourserverurl"
 rancher_admin_password: "admin_password"
