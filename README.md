@@ -41,9 +41,19 @@ Example Playbook
       - include_role:
           name: '../../rancher2-ansible'
         vars:
-          rancher_url: 'https://my_rancher.fr'
-          rancher_admin_password: 'rancher_password'
-          rancher_cluster_name: 'my_cluster'
+          docker_version: "18.03"
+          rancher_container_name: "rancher-server"
+          rancher_url: "https://yourserverurl"
+          rancher_admin_password: "admin_password"
+          rancher_cluster_name: "cluster_name"
+          rancher_network_provider: "calico"
+          install_rook: true
+          rook_version: "0.9.1"
+          install_certmanager: true
+          cluster_issuer_name: "letsencrypt-staging"
+          letsencrypt_email: "youremail@email.fr"
+          validate_certs: true
+          rancher_ssl_port: 443
 
 License
 -------
