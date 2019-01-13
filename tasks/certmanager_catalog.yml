@@ -32,7 +32,6 @@
     validate_certs: False
   register: cluster_result
 
-
 - name: Get project associated to cluster
   uri:
     url: '{{ rancher_url }}/v3/projects?clusterId={{ cluster_result.json.data[0].id }}'
@@ -44,24 +43,30 @@
     validate_certs: False
   register: project_result
 
-- name: Create namespace cert-manager
+- name: "Create namespace cert-manager"
   uri:
     url: '{{ rancher_url }}/v3/clusters/{{ cluster_result.json.data[0].id }}/namespace'
     method: POST
-    body: {"type":"namespace","name":"cert-manager","projectId":"{{ project_result.json.data[1].id }}"}
+    body: {"type":"namespace","name":"cert-manager","projectId":"{{ item.id }}"}
     status_code: 201
     body_format: json
     headers:
       Authorization: "Bearer {{ api_key_result.json.token }}"
     validate_certs: False
+  with_items: "{{  project_result.json.data }}"
+  when:
+    - item.name == "Default"
 
 - name: Install catalog
   uri:
-    url: '{{ rancher_url }}/v3/projects/{{ project_result.json.data[1].id }}/app'
+    url: '{{ rancher_url }}/v3/projects/{{ item.id }}/app'
     method: POST
-    body: {"prune":false,"type":"app","name":"cert-manager","answers":{"defaultImage":"true","image.repository":"quay.io/jetstack/cert-manager-controller","image.tag":"v0.5.2","webhook.image.repository":"quay.io/jetstack/cert-manager-webhook","webhook.image.tag":"v0.5.2","replicaCount":"1","clusterissuerEnabled":"true","ingressShim.defaultIssuerName":"letsencrypt-staging","{{ cluster_issuer_name }}":"{{ letsencrypt_email }}","createCustomResource":"true","webhook.enabled":"false","webhook.replicaCount":"1","webhook.extraArgs":"[]"},"targetNamespace":"cert-manager","externalId":"catalog://?catalog=library&template=cert-manager&version=v0.5.2","projectId":"{{ project_result.json.data[1].id }}"}
+    body: {"prune":false,"type":"app","name":"cert-manager","answers":{"defaultImage":"true","image.repository":"quay.io/jetstack/cert-manager-controller","image.tag":"v0.5.2","webhook.image.repository":"quay.io/jetstack/cert-manager-webhook","webhook.image.tag":"v0.5.2","replicaCount":"1","clusterissuerEnabled":"true","ingressShim.defaultIssuerName":"letsencrypt-staging","{{ cluster_issuer_name }}":"{{ letsencrypt_email }}","createCustomResource":"true","webhook.enabled":"false","webhook.replicaCount":"1","webhook.extraArgs":"[]"},"targetNamespace":"cert-manager","externalId":"catalog://?catalog=library&template=cert-manager&version=v0.5.2","projectId":"{{ item.id }}"}
     status_code: 201
     body_format: json
     headers:
       Authorization: "Bearer {{ api_key_result.json.token }}"
     validate_certs: False
+  with_items: "{{  project_result.json.data }}"
+  when:
+    - item.name == "Default"
