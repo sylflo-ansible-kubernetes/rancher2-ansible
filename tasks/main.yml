@@ -9,3 +9,7 @@
   delegate_to: 127.0.0.1
   connection: local
   when: install_rook
+
+- include: certmanager_catalog.yml
+  tags: certmanager
+  when: install_certmanager

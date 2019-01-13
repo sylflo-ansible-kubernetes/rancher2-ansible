@@ -6,3 +6,6 @@ rancher_cluster_name: "cluster_name"
 rancher_network_provider: "calico"
 install_rook: true
 rook_version: "0.9.1"
+install_certmanager: true
+cluster_issuer_name: "letsencrypt-staging"
+letsencrypt_email: "youremail@email.fr"
