@@ -13,19 +13,8 @@
 - pause:
     prompt: "Copy kubectl config file in $HOME/.kube/config on your localhost"
 
-- name: Install kubectl on localhost (Debian/Ubuntu)
-  shell: |
-     apt-get update && sudo apt-get install -y apt-transport-https python-passlib
-     curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
-     touch /etc/apt/sources.list.d/kubernetes.list
-     echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list
-     apt-get update
-     apt-get install -y kubectl
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
-
-- name: Install kubectl on localhost (Archlinux)
-  shell: yaourt -S kubectl
-  when: ansible_distribution == 'Archlinux'
+- pause:
+    prompt: "Please install kubectl on your localhost system"
 
 - name: Set FLEXVOLUME_DIR_PATH for Rook to be able to work with Rancher
   lineinfile:
@@ -61,17 +50,17 @@
   until: nb_running_pods.stdout == "6"
 
 - name: "Create Rook storage class"
-  shell: kubectl create -f /tmp/rook/rook-0.9.0/cluster/examples/kubernetes/ceph/storageclass.yaml
+  shell: kubectl create -f /tmp/rook/rook-{{rook_version}}/cluster/examples/kubernetes/ceph/storageclass.yaml
 
 - name: "Set the Rook storage class as default"
   shell: |
     kubectl patch storageclass rook-ceph-block -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
 
 - name: "Create a shared file system"
-  shell: kubectl create -f /tmp/rook/rook-0.9.0/cluster/examples/kubernetes/ceph/filesystem.yaml
+  shell: kubectl create -f /tmp/rook/rook-{{rook_version}}/cluster/examples/kubernetes/ceph/filesystem.yaml
 
 - name: "Create toolbox"
-  shell: kubectl create -f /tmp/rook/rook-0.9.0/cluster/examples/kubernetes/ceph/toolbox.yaml
+  shell: kubectl create -f /tmp/rook/rook-{{rook_version}}/cluster/examples/kubernetes/ceph/toolbox.yaml
 
 - name: "Install Rook dashboard"
   shell: kubectl create -f /tmp/rook/rook-{{rook_version}}/cluster/examples/kubernetes/ceph/dashboard-external-http.yaml
