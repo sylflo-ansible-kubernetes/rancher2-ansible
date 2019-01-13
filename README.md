@@ -20,6 +20,11 @@ Role Variables
 - rancher_admin_password: "admin_password" => The password you want
 - rancher_cluster_name: "cluster_name" => The name you want for the cluster being created
 - rancher_network_provider: "calico" => The network provider
+- install_rook: true => if you wish to install Rook
+- rook_version: "0.9.1" => The version of Rook
+- install_certmanager: true => if you wish to install cert-manager
+- cluster_issuer_name: "letsencrypt-staging" => The clusterissuer name it should be "letsencrypt-staging" or "letsencrypt-prod"
+- letsencrypt_email: "youremail@email.fr" => The email to user with letsencrypt
 
 Dependencies
 ------------
