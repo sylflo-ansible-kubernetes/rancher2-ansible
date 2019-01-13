@@ -29,7 +29,7 @@
     headers:
       Authorization: "Bearer {{ login_result.json.token }}"
     body_format: json
-    validate_certs: {{ validate_certs }}
+    validate_certs: "{{ validate_certs }}"
     status_code: 200
   when: login_result.status in [201]
 
@@ -40,7 +40,7 @@
     body: {"username": "admin", "password": "{{ rancher_admin_password }}"}
     status_code: 201
     body_format: json
-    validate_certs: {{ validate_certs }}
+    validate_certs: "{{ validate_certs }}"
   register: login_result
   until: login_result.status == 201
   retries: 10
@@ -55,7 +55,7 @@
     body_format: json
     headers:
       Authorization: "Bearer {{ login_result.json.token }}"
-    validate_certs: {{ validate_certs }}
+    validate_certs: "{{ validate_certs }}"
   register: api_key_result
 
 - name: Set rancher server rul
@@ -67,7 +67,7 @@
       Authorization: "Bearer {{ api_key_result.json.token }}"
     status_code: 200
     body_format: json
-    validate_certs: {{ validate_certs }}
+    validate_certs: "{{ validate_certs }}"
 
 - name: Create cluster
   uri:
@@ -78,7 +78,7 @@
     body_format: json
     headers:
       Authorization: "Bearer {{ api_key_result.json.token }}"
-    validate_certs: {{ validate_certs }}
+    validate_certs: "{{ validate_certs }}"
   register: cluster_result
 
 - name: Get command to launch for nodes
@@ -90,7 +90,7 @@
     body_format: json
     headers:
       Authorization: "Bearer {{ api_key_result.json.token }}"
-    validate_certs: {{ validate_certs }}
+    validate_certs: "{{ validate_certs }}"
   register: node_command_result
 
 - name: launch node command
