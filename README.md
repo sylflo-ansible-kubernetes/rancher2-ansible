@@ -25,6 +25,8 @@ Role Variables
 - install_certmanager: true => if you wish to install cert-manager
 - cluster_issuer_name: "letsencrypt-staging" => The clusterissuer name it should be "letsencrypt-staging" or "letsencrypt-prod"
 - letsencrypt_email: "youremail@email.fr" => The email to user with letsencrypt
+validate_certs: true => Use false if you do not desire to use SSL
+rancher_ssl_port: 443 => Use a different if you do not desire to use SSL
 
 Dependencies
 ------------

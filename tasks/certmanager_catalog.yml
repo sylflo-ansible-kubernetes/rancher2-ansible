@@ -5,7 +5,7 @@
     body: {"username": "admin", "password": "{{ rancher_admin_password }}"}
     status_code: 201
     body_format: json
-    validate_certs: False
+    validate_certs: {{ validate_certs }}
   register: login_result
   until: login_result.status == 201
 
@@ -18,7 +18,7 @@
     body_format: json
     headers:
       Authorization: "Bearer {{ login_result.json.token }}"
-    validate_certs: False
+    validate_certs: {{ validate_certs }}
   register: api_key_result
 
 - name: Get cluster
@@ -29,7 +29,7 @@
     body_format: json
     headers:
       Authorization: "Bearer {{ api_key_result.json.token }}"
-    validate_certs: False
+    validate_certs: {{ validate_certs }}
   register: cluster_result
 
 - name: Get project associated to cluster
@@ -40,7 +40,7 @@
     body_format: json
     headers:
       Authorization: "Bearer {{ api_key_result.json.token }}"
-    validate_certs: False
+    validate_certs: {{ validate_certs }}
   register: project_result
 
 - name: "Create namespace cert-manager"
@@ -52,7 +52,7 @@
     body_format: json
     headers:
       Authorization: "Bearer {{ api_key_result.json.token }}"
-    validate_certs: False
+    validate_certs: {{ validate_certs }}
   with_items: "{{  project_result.json.data }}"
   when:
     - item.name == "Default"
@@ -66,7 +66,7 @@
     body_format: json
     headers:
       Authorization: "Bearer {{ api_key_result.json.token }}"
-    validate_certs: False
+    validate_certs: {{ validate_certs }}
   with_items: "{{  project_result.json.data }}"
   when:
     - item.name == "Default"
