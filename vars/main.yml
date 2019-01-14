@@ -1,6 +1,7 @@
 docker_version: "18.09.0"
 rancher_container_name: "rancher-server"
-rancher_url: "https://yourserverurl"
+rancher_domain_name: your_domain_name
+rancher_url: "https://{{ rancher_domain_name }}"
 rancher_admin_password: "admin_password"
 rancher_cluster_name: "cluster_name"
 rancher_network_provider: "calico"

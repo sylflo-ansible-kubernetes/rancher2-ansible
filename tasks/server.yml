@@ -2,9 +2,15 @@
   docker_volume:
     name: rancher
 
-- name: launch rancher
+- name: launch rancher on single node
   command: docker run -d --name {{ rancher_container_name }} -v rancher:/var/lib/mysql -v /host/rancher:/var/lib/rancher --restart=unless-stopped -p 8080:80 -p {{ rancher_ssl_port }}:443 rancher/rancher:latest
   ignore_errors: true
+  when: single_node
+
+- name: launch rancher on single node
+  command: docker run -d --name {{ rancher_container_name }} -v rancher:/var/lib/mysql -v /host/rancher:/var/lib/rancher --restart=unless-stopped -p 80:80 -p 443:443  rancher/rancher:latest  --acme-domain {{ rancher_domain_name }}
+  ignore_errors: true
+  when: not single_node
 
 - name: Get response from login endpoint using default password
   uri:
