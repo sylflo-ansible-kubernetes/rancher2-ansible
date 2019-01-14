@@ -16,7 +16,8 @@ Role Variables
 
 - docker_version: "18.03" => The docker version you want to install
 - rancher_container_name: "rancher-server" => The name you want for the rancher docker container
-- rancher_url: "https://yourserverurl" => The url of the rancher server
+- rancher_domain_name: "your_domain_name" => The domain name of Rancher
+- rancher_url: "https://{{ rancher_domain_name }}" => The url of the rancher server
 - rancher_admin_password: "admin_password" => The password you want
 - rancher_cluster_name: "cluster_name" => The name you want for the cluster being created
 - rancher_network_provider: "calico" => The network provider
@@ -25,8 +26,9 @@ Role Variables
 - install_certmanager: true => if you wish to install cert-manager
 - cluster_issuer_name: "letsencrypt-staging" => The clusterissuer name it should be "letsencrypt-staging" or "letsencrypt-prod"
 - letsencrypt_email: "youremail@email.fr" => The email to user with letsencrypt
-validate_certs: true => Use false if you do not desire to use SSL
-rancher_ssl_port: 443 => Use a different if you do not desire to use SSL
+- validate_certs: true => Use false if you do not desire to use SSL
+- rancher_ssl_port: 443 => Use a different if you do not desire to use SSL
+- single_node: false => set to True if you want to install Rancher on a single node cluster
 
 Dependencies
 ------------
@@ -43,7 +45,7 @@ Example Playbook
         vars:
           docker_version: "18.03"
           rancher_container_name: "rancher-server"
-          rancher_url: "https://yourserverurl"
+          rancher_domain_name: your_domain_name.fr
           rancher_admin_password: "admin_password"
           rancher_cluster_name: "cluster_name"
           rancher_network_provider: "calico"
@@ -54,6 +56,7 @@ Example Playbook
           letsencrypt_email: "youremail@email.fr"
           validate_certs: true
           rancher_ssl_port: 443
+          single_node: false
 
 License
 -------

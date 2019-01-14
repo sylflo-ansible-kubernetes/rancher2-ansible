@@ -12,3 +12,4 @@ cluster_issuer_name: "letsencrypt-staging"
 letsencrypt_email: "youremail@email.fr"
 validate_certs: true
 rancher_ssl_port: 443
+single_node: false
