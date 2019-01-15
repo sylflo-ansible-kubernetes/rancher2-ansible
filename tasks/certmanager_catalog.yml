@@ -61,7 +61,7 @@
   uri:
     url: '{{ rancher_url }}/v3/projects/{{ item.id }}/app'
     method: POST
-    body: {"prune":false,"type":"app","name":"cert-manager","answers":{"defaultImage":"true","image.repository":"quay.io/jetstack/cert-manager-controller","image.tag":"v0.5.2","webhook.image.repository":"quay.io/jetstack/cert-manager-webhook","webhook.image.tag":"v0.5.2","replicaCount":"1","clusterissuerEnabled":"true","ingressShim.defaultIssuerName":"letsencrypt-staging","{{ cluster_issuer_name }}":"{{ letsencrypt_email }}","createCustomResource":"true","webhook.enabled":"false","webhook.replicaCount":"1","webhook.extraArgs":"[]"},"targetNamespace":"cert-manager","externalId":"catalog://?catalog=library&template=cert-manager&version=v0.5.2","projectId":"{{ item.id }}"}
+    body: {"prune":false,"type":"app","name":"cert-manager","answers":{"defaultImage":"true","image.repository":"quay.io/jetstack/cert-manager-controller","image.tag":"v0.5.2","webhook.image.repository":"quay.io/jetstack/cert-manager-webhook","webhook.image.tag":"v0.5.2","replicaCount":"1","clusterissuerEnabled":"true","ingressShim.defaultIssuerName":"{{ cluster_issuer_name }}","letsencrypt.email":"{{ letsencrypt_email }}","createCustomResource":"true","webhook.enabled":"false","webhook.replicaCount":"1","webhook.extraArgs":"[]"},"targetNamespace":"cert-manager","externalId":"catalog://?catalog=library&template=cert-manager&version=v0.5.2","projectId":"{{ item.id }}"}
     status_code: 201
     body_format: json
     headers:
