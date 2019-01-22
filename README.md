@@ -4,8 +4,8 @@ Role Name
 This role installs Rancher 2 (see rancher.com) on a custom server using Docker.
 It also installs:
   - one cluster (see the Role variables section)
-  - Cert manager with a cluster issuer (see cert-manager.io)
-  - in the future it will also install Rook (see rook.io)
+  - Cert manager catalog (see cert-manager.io)
+  - Rook (see rook.io)
 Requirements
 ------------
 
